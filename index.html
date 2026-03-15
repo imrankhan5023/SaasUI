@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1440">
+<title>IT Partner — Annotated Prototype · Concept 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#009FE3; --blue-mid:#0080C8; --blue-tint:#EBF6FD; --blue-tint2:#D6EEFA;
+  --white:#fff; --bg:#F7F9FC; --bg-subtle:#F0F4F8;
+  --border:#E2E8F0; --border-mid:#C8D5E0;
+  --ink:#0F172A; --ink2:#334155; --ink3:#64748B; --ink4:#94A3B8;
+  --green:#10B981; --green-tint:#ECFDF5;
+  --amber:#F59E0B; --red:#EF4444;
+  --ann:#FF6B35; /* annotation orange */
+  --ann-tint:rgba(255,107,53,.08);
+  --font-head:'Plus Jakarta Sans',sans-serif;
+  --font-mono:'DM Mono',monospace;
+  --r-md:10px; --r-lg:14px; --r-xl:20px;
+  --sh-sm:0 2px 8px rgba(15,23,42,.08);
+  --sh-md:0 4px 16px rgba(15,23,42,.10);
+  --sh-blue:0 4px 20px rgba(0,159,227,.22);
+}
+html{background:var(--bg)}
+body{font-family:var(--font-head);color:var(--ink);background:var(--bg);width:1440px;margin:0 auto;-webkit-font-smoothing:antialiased}
+
+/* ── HEADER ── */
+.proto-header{
+  background:var(--ink);padding:22px 64px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.proto-logo{display:flex;align-items:center;gap:10px}
+.proto-logo-mark{width:34px;height:34px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.proto-logo-mark svg{width:20px;height:20px;fill:#fff}
+.proto-logo-text{font-size:15px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.proto-logo-text b{color:var(--blue)}
+.proto-title{font-size:13px;font-weight:500;color:rgba(255,255,255,.5)}
+.proto-badges{display:flex;gap:8px}
+.proto-badge{
+  font-family:var(--font-mono);font-size:10px;
+  padding:4px 12px;border-radius:20px;
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.55);letter-spacing:.04em;
+}
+.proto-badge.live{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.3);color:#6EE7B7}
+
+/* ── HERO ── */
+.proto-hero{
+  background:var(--ink);
+  padding:64px 64px 0;
+  position:relative;overflow:hidden;
+}
+.proto-hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:48px 48px;pointer-events:none;
+}
+.proto-hero::after{
+  content:'';position:absolute;top:-120px;right:-80px;
+  width:480px;height:480px;
+  background:radial-gradient(ellipse,rgba(0,159,227,.14) 0%,transparent 65%);
+  pointer-events:none;
+}
+.proto-hero-inner{position:relative;z-index:1;max-width:680px;margin-bottom:48px}
+.ph-eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:rgba(0,159,227,.8);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ph-eyebrow::before{content:'';width:18px;height:1px;background:var(--blue);opacity:.7}
+.proto-hero h1{font-size:48px;font-weight:800;color:#fff;letter-spacing:-.04em;line-height:1.1;margin-bottom:14px}
+.proto-hero h1 span{color:var(--blue)}
+.proto-hero p{font-size:16px;color:rgba(255,255,255,.55);line-height:1.65;margin-bottom:28px}
+.proto-hero-stats{display:flex;gap:0;border:1px solid rgba(255,255,255,.1);border-radius:var(--r-xl);overflow:hidden;width:fit-content}
+.phs-item{padding:16px 28px;border-right:1px solid rgba(255,255,255,.08)}
+.phs-item:last-child{border-right:none}
+.phs-num{font-size:26px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1}
+.phs-num b{color:var(--blue)}
+.phs-label{font-family:var(--font-mono);font-size:10px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+
+/* ── PAGE NAV TABS ── */
+.page-tabs{
+  background:var(--white);
+  border-bottom:2px solid var(--border);
+  padding:0 64px;
+  display:flex;gap:0;
+  position:sticky;top:64px;z-index:90;
+}
+.page-tab{
+  padding:16px 24px;font-size:13.5px;font-weight:600;
+  color:var(--ink4);border:none;background:transparent;
+  cursor:pointer;font-family:var(--font-head);
+  border-bottom:2px solid transparent;margin-bottom:-2px;
+  display:flex;align-items:center;gap:8px;
+  transition:color .15s,border-color .15s;
+}
+.page-tab:hover{color:var(--ink2)}
+.page-tab.active{color:var(--blue);border-bottom-color:var(--blue)}
+.page-tab-num{
+  width:20px;height:20px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:10px;
+  font-weight:500;
+  background:var(--bg-subtle);color:var(--ink4);
+}
+.page-tab.active .page-tab-num{background:var(--blue-tint);color:var(--blue)}
+
+/* ── CONTENT ── */
+.proto-content{padding:48px 64px;display:flex;flex-direction:column;gap:56px}
+
+/* ── FUNNEL OVERVIEW ── */
+.funnel-overview{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-xl);padding:32px;box-shadow:var(--sh-sm);
+}
+.fo-header{margin-bottom:28px}
+.fo-title{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-bottom:5px}
+.fo-sub{font-size:14px;color:var(--ink3)}
+.funnel-steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.funnel-steps::before{
+  content:'';position:absolute;
+  top:28px;left:10%;right:10%;height:2px;
+  background:linear-gradient(90deg,var(--blue) 0%,var(--blue-tint2) 100%);
+  z-index:0;
+}
+.fs-item{display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1;padding:0 12px}
+.fs-num{
+  width:56px;height:56px;border-radius:50%;
+  background:var(--blue);color:#fff;
+  font-size:18px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;
+  box-shadow:var(--sh-blue);
+}
+.fs-num.done{background:var(--green)}
+.fs-num.partial{background:var(--amber)}
+.fs-page{font-family:var(--font-mono);font-size:10px;color:var(--blue);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.fs-title{font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;letter-spacing:-.01em}
+.fs-desc{font-size:12.5px;color:var(--ink3);line-height:1.55}
+.fs-cta{
+  margin-top:10px;display:inline-flex;align-items:center;gap:4px;
+  font-family:var(--font-mono);font-size:10px;color:var(--blue);
+  background:var(--blue-tint);border:1px solid var(--blue-tint2);
+  border-radius:100px;padding:3px 10px;text-transform:uppercase;letter-spacing:.05em;
+}
+
+/* ── PAGE SECTION ── */
+.page-section{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--sh-sm);
+}
+.ps-header{
+  padding:24px 28px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--bg-subtle);
+}
+.ps-page-badge{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-mono);font-size:11px;color:var(--ink4);
+  text-transform:uppercase;letter-spacing:.06em;
+}
+.ps-page-dot{width:8px;height:8px;border-radius:50%;background:var(--blue)}
+.ps-title{font-size:17px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.ps-link{
+  display:flex;align-items:center;gap:6px;
+  height:34px;padding:0 16px;
+  background:var(--blue);border:none;border-radius:var(--r-md);
+  color:#fff;font-size:12.5px;font-weight:600;
+  font-family:var(--font-head);cursor:pointer;text-decoration:none;
+}
+
+.ps-body{padding:28px;display:flex;flex-direction:column;gap:24px}
+
+/* ANNOTATION SYSTEM */
+.annotated{position:relative}
+.ann-zone{
+  position:relative;
+  border:2px dashed rgba(255,107,53,.4);
+  border-radius:var(--r-lg);
+  background:var(--ann-tint);
+  padding:16px;
+}
+.ann-label{
+  position:absolute;top:-11px;left:14px;
+  font-family:var(--font-mono);font-size:10px;font-weight:500;
+  color:#fff;background:var(--ann);
+  padding:2px 8px;border-radius:20px;letter-spacing:.04em;
+  white-space:nowrap;
+}
+.ann-note{
+  margin-top:12px;
+  display:flex;align-items:flex-start;gap:8px;
+  font-size:12.5px;color:var(--ink2);line-height:1.55;
+  padding:10px 12px;
+  background:var(--white);border-radius:var(--r-md);
+  border:1px solid rgba(255,107,53,.2);
+}
+.ann-icon{font-size:14px;flex-shrink:0;margin-top:1px}
+
+/* MOCK ELEMENTS */
+.mock-nav{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--r-lg);padding:14px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  box-shadow:var(--sh-sm);
+}
+.mock-logo{display:flex;align-items:center;gap:8px}
+.mock-logo-mark{width:28px;height:28px;background:var(--blue);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+.mock-logo-text{font-size:13px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.mock-logo-text b{color:var(--blue)}
+.mock-links{display:flex;gap:0}
+.mock-link{font-size:11.5px;font-weight:500;color:var(--ink4);padding:4px 10px;border-radius:5px}
+.mock-link.active{color:var(--ink);background:var(--bg-subtle)}
+.mock-btns{display:flex;gap:8px}
+.mock-btn-ghost{height:28px;padding:0 12px;border:1.5px solid var(--border-mid);border-radius:7px;background:var(--white);color:var(--ink3);font-size:11px;font-weight:500;font-family:var(--font-head);cursor:pointer}
+.mock-btn-primary{height:28px;padding:0 13px;background:var(--blue);border:none;border-radius:7px;color:#fff;font-size:11px;font-weight:600;font-family:var(--font-head);cursor:pointer}
+
+.mock-hero{
+  background:linear-gradient(110deg,var(--ink) 55%,var(--blue) 100%);
+  border-radius:var(--r-lg);padding:28px;margin-top:12px;
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;
+}
+.mock-h1{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.2;margin-bottom:10px}
+.mock-sub{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6;margin-bottom:16px}
+.mock-trust{display:flex;gap:8px}
+.mock-trust-badge{
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+  border-radius:100px;padding:3px 10px;
+  font-size:10px;color:rgba(255,255,255,.7);font-family:var(--font-mono);
+}
+.mock-hero-right{
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--r-lg);padding:14px;
+}
+.mock-metric-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.mock-metric{
+  background:rgba(255,255,255,.08);border-radius:8px;padding:10px;
+}
+.mock-metric-val{font-size:16px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.mock-metric-label{font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,.45);margin-top:2px;text-transform:uppercase;letter-spacing:.04em}
+
+.mock-cta-row{display:flex;gap:8px;margin-top:4px}
+.mock-cta-primary{height:36px;padding:0 18px;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;font-family:var(--font-head);cursor:pointer;white-space:nowrap}
+.mock-cta-outline{height:36px;padding:0 16px;border:1.5px solid rgba(255,255,255,.25);border-radius:8px;background:transparent;color:rgba(255,255,255,.85);font-size:12px;font-family:var(--font-head);cursor:pointer;white-space:nowrap}
+
+/* Stats mock */
+.mock-stats{display:grid;grid-template-columns:repeat(6,1fr);margin-top:12px;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;background:var(--white)}
+.mock-stat{padding:16px;border-right:1px solid var(--border);text-align:center}
+.mock-stat:last-child{border-right:none}
+.mock-stat-num{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.03em}
+.mock-stat-num b{color:var(--blue)}
+.mock-stat-lbl{font-size:10px;color:var(--ink4);margin-top:4px;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.04em}
+
+/* Service cards mock */
+.mock-svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.mock-svc-card{
+  background:var(--white);border:1px solid var(--border);border-radius:var(--r-lg);padding:16px;
+  position:relative;overflow:hidden;
+}
+.mock-svc-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--blue);opacity:0;transition:opacity .2s}
+.mock-svc-card:hover::before{opacity:1}
+.mock-svc-icon{width:34px;height:34px;border-radius:8px;background:var(--blue-tint);border:1px solid var(--blue-tint2);display:flex;align-items:center;justify-content:center;font-size:15px;margin-bottom:10px}
+.mock-svc-title{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:5px;letter-spacing:-.01em}
+.mock-svc-desc{font-size:11.5px;color:var(--ink4);line-height:1.55}
+
+/* Sidebar + catalog mock */
+.mock-catalog{display:grid;grid-template-columns:160px 1fr;gap:0;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.mock-sb{background:var(--white);border-right:1px solid var(--border);padding:12px 0}
+.mock-sb-link{padding:7px 14px;font-size:11.5px;font-weight:500;color:var(--ink4);display:flex;justify-content:space-between;align-items:center;border-left:2px solid transparent}
+.mock-sb-link.active{background:var(--blue-tint);color:var(--blue-mid);border-left-color:var(--blue);font-weight:600}
+.mock-sb-count{font-family:var(--font-mono);font-size:9px;color:var(--ink4)}
+.mock-sb-link.active .mock-sb-count{color:var(--blue)}
+.mock-catalog-main{padding:14px;background:var(--bg)}
+.mock-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mock-svc-card2{background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);padding:14px}
+.mock-svc-tags{display:flex;gap:4px;margin-bottom:8px}
+.mock-stag{font-family:var(--font-mono);font-size:8px;padding:2px 6px;border-radius:100px;border:1px solid}
+.mock-stag-red{color:#B91C1C;background:#FEF2F2;border-color:#FECACA}
+.mock-stag-blue{color:var(--blue-mid);background:var(--blue-tint);border-color:var(--blue-tint2)}
+.mock-stag-green{color:#065F46;background:var(--green-tint);border-color:#A7F3D0}
+.mock-card-title{font-size:12px;font-weight:700;color:var(--ink);margin-bottom:5px;letter-spacing:-.01em}
+.mock-card-price{font-size:16px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.mock-card-unit{font-family:var(--font-mono);font-size:9px;color:var(--ink4);margin-top:2px;text-transform:uppercase}
+
+/* Detail mock */
+.mock-detail{display:grid;grid-template-columns:1fr 220px;gap:20px}
+.mock-detail-content{}
+.mock-detail-h1{font-size:20px;font-weight:800;color:var(--ink);letter-spacing:-.03em;margin-bottom:12px}
+.mock-quickfacts{display:flex;gap:0;background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);overflow:hidden;margin-bottom:14px}
+.mock-qf{flex:1;padding:10px 14px;border-right:1px solid var(--border)}
+.mock-qf:last-child{border-right:none}
+.mock-qf-label{font-family:var(--font-mono);font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.mock-qf-val{font-size:12px;font-weight:600;color:var(--ink2)}
+.mock-timeline{position:relative;padding-left:20px;border-left:2px solid var(--border);display:flex;flex-direction:column;gap:12px}
+.mock-tl-step{position:relative}
+.mock-tl-dot{position:absolute;left:-25px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--blue-tint);border:2px solid var(--blue)}
+.mock-tl-day{font-family:var(--font-mono);font-size:9px;color:var(--blue);text-transform:uppercase;letter-spacing:.05em}
+.mock-tl-title{font-size:12px;font-weight:600;color:var(--ink);margin-top:1px}
+.mock-tl-desc{font-size:11px;color:var(--ink4);line-height:1.5;margin-top:2px}
+.mock-price-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--sh-md)}
+.mock-pc-top{padding:18px;border-bottom:1px solid var(--border);background:linear-gradient(160deg,var(--white) 60%,var(--blue-tint) 100%);position:relative}
+.mock-pc-top::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--blue)}
+.mock-pc-label{font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink4);margin-bottom:5px}
+.mock-pc-price{font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.04em;line-height:1}
+.mock-pc-unit{font-family:var(--font-mono);font-size:9px;color:var(--ink4);margin-top:3px}
+.mock-pay-badge{display:inline-flex;align-items:center;gap:4px;margin-top:8px;background:var(--green-tint);border:1px solid rgba(16,185,129,.25);border-radius:100px;padding:3px 8px;font-family:var(--font-mono);font-size:9px;color:#065F46}
+.mock-pc-features{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;flex-direction:column;gap:7px}
+.mock-pcf{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--ink2)}
+.mock-pcf-check{width:14px;height:14px;border-radius:50%;background:var(--blue-tint);border:1px solid var(--blue-tint2);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--blue);flex-shrink:0}
+.mock-pc-actions{padding:12px 18px;display:flex;flex-direction:column;gap:7px}
+.mock-btn-cart{width:100%;height:38px;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:12px;font-weight:700;font-family:var(--font-head);cursor:pointer}
+.mock-btn-quote{width:100%;height:34px;border:1.5px solid var(--border-mid);border-radius:8px;background:var(--white);color:var(--ink3);font-size:11px;font-family:var(--font-head);cursor:pointer}
+.mock-pc-fine{text-align:center;font-family:var(--font-mono);font-size:9px;color:var(--ink4);padding-top:2px}
+
+/* Contact mock */
+.mock-contact{display:grid;grid-template-columns:1fr 280px;gap:0;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden}
+.mock-form-side{padding:20px;background:var(--white)}
+.mock-form-title{font-size:15px;font-weight:800;color:var(--ink);margin-bottom:12px;letter-spacing:-.02em}
+.mock-intent{display:flex;gap:0;background:var(--bg-subtle);border:1px solid var(--border);border-radius:8px;padding:3px;margin-bottom:14px}
+.mock-int-tab{flex:1;height:28px;border:none;border-radius:6px;background:transparent;font-size:11px;font-weight:500;color:var(--ink4);font-family:var(--font-head);cursor:pointer}
+.mock-int-tab.active{background:var(--white);color:var(--ink);font-weight:600;box-shadow:var(--sh-sm)}
+.mock-fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.mock-field-label{font-family:var(--font-mono);font-size:8px;text-transform:uppercase;letter-spacing:.07em;color:var(--ink4);margin-bottom:4px}
+.mock-inp{width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:11px;color:var(--ink3);font-family:var(--font-head);background:var(--white)}
+.mock-inp.focus-blue{border-color:var(--blue);box-shadow:0 0 0 2px var(--blue-tint)}
+.mock-submit{width:100%;height:40px;background:var(--blue);border:none;border-radius:8px;color:#fff;font-size:13px;font-weight:700;font-family:var(--font-head);cursor:pointer;margin-top:10px}
+.mock-info-side{padding:20px;background:var(--bg)}
+.mock-office-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px;margin-bottom:8px}
+.mock-office-card.primary-oc{border-color:var(--blue-tint2);background:var(--blue-tint)}
+.mock-oc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.mock-oc-name{font-size:12px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:6px}
+.mock-hq-chip{font-family:var(--font-mono);font-size:8px;color:var(--blue-mid);background:var(--blue-tint2);border:1px solid var(--border-blue);padding:1px 6px;border-radius:100px}
+.mock-oc-detail{font-size:10.5px;color:var(--ink4);margin-bottom:3px}
+.mock-resp-card{background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.mock-resp-head{padding:8px 12px;background:var(--bg-subtle);border-bottom:1px solid var(--border);font-family:var(--font-mono);font-size:9px;color:var(--ink4);display:flex;justify-content:space-between}
+.mock-resp-live{color:var(--green)}
+.mock-resp-row{display:flex;justify-content:space-between;padding:7px 12px;border-bottom:1px solid var(--border);font-size:11px}
+.mock-resp-row:last-child{border-bottom:none}
+.mock-resp-val{font-family:var(--font-mono);font-size:10.5px;font-weight:500;color:var(--green)}
+
+/* Dashboard mock */
+.mock-dashboard{display:grid;grid-template-columns:140px 1fr;gap:0;background:var(--bg);border-radius:var(--r-lg);overflow:hidden;border:1px solid var(--border)}
+.mock-dsb-sidebar{background:var(--white);border-right:1px solid var(--border);padding:12px 0}
+.mock-dsb-brand{display:flex;align-items:center;gap:6px;padding:8px 14px 12px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.mock-dsb-mark{width:22px;height:22px;background:var(--blue);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:800;color:#fff}
+.mock-dsb-name{font-size:11px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.mock-dsb-name b{color:var(--blue)}
+.mock-dsb-item{padding:7px 14px;font-size:11px;font-weight:500;color:var(--ink4);display:flex;align-items:center;gap:6px;border-left:2px solid transparent}
+.mock-dsb-item.active{background:var(--blue-tint);color:var(--blue-mid);border-left-color:var(--blue);font-weight:600}
+.mock-dsb-main{padding:14px;display:flex;flex-direction:column;gap:12px}
+.mock-dsb-topbar{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center}
+.mock-dsb-title{font-size:13px;font-weight:700;color:var(--ink)}
+.mock-dsb-period{display:flex;gap:0;background:var(--bg);border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.mock-dsb-ptab{padding:4px 10px;font-size:10px;font-weight:500;color:var(--ink4);border:none;background:transparent;font-family:var(--font-head);cursor:pointer}
+.mock-dsb-ptab.active{background:var(--blue);color:#fff}
+.mock-kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.mock-kpi{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 12px;display:flex;align-items:center;gap:8px}
+.mock-kpi-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.mock-kpi-val{font-size:14px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.mock-kpi-lbl{font-family:var(--font-mono);font-size:8.5px;color:var(--ink4);text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px}
+.mock-charts{display:grid;grid-template-columns:1fr 160px;gap:8px}
+.mock-chart{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px;height:100px;display:flex;align-items:flex-end;gap:3px;overflow:hidden}
+.mock-bar{background:linear-gradient(180deg,var(--blue-tint2),var(--blue));border-radius:3px 3px 0 0;min-width:12px;transition:height .3s}
+.mock-donut-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.mock-donut-ring{width:80px;height:80px;border-radius:50%;background:conic-gradient(var(--blue) 0% 42%,#7B68EE 42% 70%,#FF6B8A 70% 88%,#FFB347 88% 100%);display:flex;align-items:center;justify-content:center;margin-bottom:6px}
+.mock-donut-inner{width:56px;height:56px;border-radius:50%;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:var(--ink)}
+.mock-stat-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mock-stat-grad{border-radius:8px;padding:12px;color:#fff;position:relative;overflow:hidden}
+.mock-sg-label{font-size:9px;font-weight:600;opacity:.85;text-transform:uppercase;letter-spacing:.04em;margin-bottom:5px}
+.mock-sg-val{font-size:16px;font-weight:800;letter-spacing:-.03em}
+.mock-table{background:var(--white);border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.mock-table-head{background:var(--bg);display:grid;grid-template-columns:80px 1fr 1fr 60px 70px 80px;padding:7px 12px}
+.mock-th{font-family:var(--font-mono);font-size:9px;color:var(--ink4);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.mock-table-row{display:grid;grid-template-columns:80px 1fr 1fr 60px 70px 80px;padding:8px 12px;border-top:1px solid var(--border)}
+.mock-td{font-size:11px;color:var(--ink2);align-self:center}
+.mock-td.mono{font-family:var(--font-mono);font-size:10px}
+.mock-status-chip{display:inline-flex;padding:2px 8px;border-radius:100px;font-size:9px;font-weight:700}
+
+/* Annotation legend */
+.ann-legend{
+  background:var(--white);border:1px solid rgba(255,107,53,.3);border-radius:var(--r-xl);padding:20px 24px;
+  display:flex;flex-wrap:wrap;gap:16px;align-items:center;
+}
+.ann-legend-title{font-family:var(--font-mono);font-size:10px;color:var(--ink4);text-transform:uppercase;letter-spacing:.08em;margin-right:8px;flex-shrink:0}
+.ann-legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink3)}
+.ann-legend-dot{width:10px;height:10px;border-radius:50%;background:var(--ann)}
+
+/* PRINT */
+.page-tag{position:fixed;top:10px;right:10px;z-index:9999;background:var(--ink);color:rgba(255,255,255,.4);font-family:var(--font-mono);font-size:10px;padding:4px 12px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;border:1px solid rgba(255,255,255,.08)}
+</style>
+</head>
+<body>
+<div class="page-tag">C3 · ANNOTATED PROTOTYPE</div>
+
+<!-- HEADER -->
+<header class="proto-header">
+  <div class="proto-logo">
+    <div class="proto-logo-mark"><svg viewBox="0 0 20 20"><rect x="2" y="2" width="7" height="7" rx="1"/><rect x="11" y="2" width="7" height="7" rx="1"/><rect x="2" y="11" width="7" height="7" rx="1"/><rect x="11" y="11" width="7" height="7" rx="1"/></svg></div>
+    <span class="proto-logo-text">IT <b>Partner</b></span>
+  </div>
+  <span class="proto-title">Annotated Prototype &amp; Conversion Strategy · Concept 3</span>
+  <div class="proto-badges">
+    <span class="proto-badge">5 Pages</span>
+    <span class="proto-badge">1 Style Guide</span>
+    <span class="proto-badge live">● All Deliverables Complete</span>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="proto-hero">
+  <div class="proto-hero-inner">
+    <div class="ph-eyebrow">Annotated Prototype</div>
+    <h1>Conversion Strategy &amp;<br><span>Funnel Architecture</span></h1>
+    <p>Every page, every component, every CTA — mapped to a clear user journey from first visit to signed engagement. Annotations show the "why" behind every design decision.</p>
+    <div class="proto-hero-stats">
+      <div class="phs-item"><div class="phs-num">5</div><div class="phs-label">Pages Designed</div></div>
+      <div class="phs-item"><div class="phs-num">1</div><div class="phs-label">Dashboard</div></div>
+      <div class="phs-item"><div class="phs-num">1</div><div class="phs-label">Style Guide</div></div>
+      <div class="phs-item"><div class="phs-num"><b>4</b></div><div class="phs-label">Funnel Stages</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE TABS -->
+<div class="page-tabs">
+  <button class="page-tab active"><span class="page-tab-num">1</span> Home</button>
+  <button class="page-tab"><span class="page-tab-num">2</span> Services</button>
+  <button class="page-tab"><span class="page-tab-num">3</span> Service Detail</button>
+  <button class="page-tab"><span class="page-tab-num">4</span> Contact</button>
+  <button class="page-tab"><span class="page-tab-num">5</span> Dashboard</button>
+</div>
+
+<div class="proto-content">
+
+  <!-- ANNOTATION LEGEND -->
+  <div class="ann-legend">
+    <span class="ann-legend-title">Annotation Key</span>
+    <span class="ann-legend-item"><span class="ann-legend-dot"></span>Dashed orange border = annotated zone</span>
+    <span class="ann-legend-item">🎯 = Conversion action</span>
+    <span class="ann-legend-item">🧠 = Psychology principle applied</span>
+    <span class="ann-legend-item">📐 = Layout / hierarchy decision</span>
+    <span class="ann-legend-item">🔒 = Trust signal placement</span>
+    <span class="ann-legend-item">⚡ = Performance / UX optimization</span>
+  </div>
+
+  <!-- CONVERSION FUNNEL OVERVIEW -->
+  <div class="funnel-overview">
+    <div class="fo-header">
+      <div class="fo-title">4-Stage Conversion Funnel</div>
+      <div class="fo-sub">Every page maps to exactly one funnel stage. Design decisions are validated against their contribution to the next step.</div>
+    </div>
+    <div class="funnel-steps">
+      <div class="fs-item">
+        <div class="fs-num">1</div>
+        <div class="fs-page">Home Page</div>
+        <div class="fs-title">Awareness</div>
+        <div class="fs-desc">Communicate value in &lt;5 seconds. Answer: who, what, why different. Stats build instant credibility.</div>
+        <div class="fs-cta">→ Browse Services</div>
+      </div>
+      <div class="fs-item">
+        <div class="fs-num">2</div>
+        <div class="fs-page">Services Catalog</div>
+        <div class="fs-title">Consideration</div>
+        <div class="fs-desc">Fixed pricing + SKUs remove ambiguity. Filters let users self-qualify. "Pay After" badge lowers purchase risk.</div>
+        <div class="fs-cta">→ View Detail</div>
+      </div>
+      <div class="fs-item">
+        <div class="fs-num">3</div>
+        <div class="fs-page">Service Detail</div>
+        <div class="fs-title">Intent</div>
+        <div class="fs-desc">Deliverables list + process timeline confirm scope. Sticky price card creates urgency without pressure.</div>
+        <div class="fs-cta">→ Add to Cart / Quote</div>
+      </div>
+      <div class="fs-item">
+        <div class="fs-num">4</div>
+        <div class="fs-page">Contact Page</div>
+        <div class="fs-title">Conversion</div>
+        <div class="fs-desc">Intent tabs personalise experience. Response times remove wait anxiety. Region routing is instant and visual.</div>
+        <div class="fs-cta">→ Send / Schedule</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 1: HOME -->
+  <div class="page-section">
+    <div class="ps-header">
+      <div>
+        <div class="ps-page-badge"><span class="ps-page-dot"></span>Page 01 — Home</div>
+        <div class="ps-title">Funnel Stage: Awareness · Entry point for all traffic</div>
+      </div>
+      <a class="ps-link" href="c3-page1-home.html" target="_blank">Open Full Page →</a>
+    </div>
+    <div class="ps-body">
+
+      <!-- NAV ANNOTATION -->
+      <div class="ann-zone">
+        <div class="ann-label">ANN-01 · Navigation Bar</div>
+        <div class="mock-nav">
+          <div class="mock-logo"><div class="mock-logo-mark">IT</div><span class="mock-logo-text">IT <b>Partner</b></span></div>
+          <div class="mock-links">
+            <span class="mock-link">Solutions</span><span class="mock-link">Subscriptions</span>
+            <span class="mock-link active">Services</span><span class="mock-link">Events</span>
+            <span class="mock-link">Blog</span><span class="mock-link">About</span>
+          </div>
+          <div class="mock-btns">
+            <button class="mock-btn-ghost">Log In</button>
+            <button class="mock-btn-primary">Schedule a Meeting</button>
+          </div>
+        </div>
+        <div class="ann-note"><span class="ann-icon">🎯</span><span>Primary CTA "Schedule a Meeting" is the only filled blue button in the nav — single focal point per Hick's Law (fewer choices = faster decisions). "Log In" is ghost style to avoid competing with the conversion action.</span></div>
+        <div class="ann-note"><span class="ann-icon">⚡</span><span>Sticky nav with backdrop-blur ensures the CTA is always reachable without scrolling back — reducing friction at any scroll depth.</span></div>
+      </div>
+
+      <!-- HERO ANNOTATION -->
+      <div class="ann-zone">
+        <div class="ann-label">ANN-02 · Hero Section</div>
+        <div class="mock-hero">
+          <div>
+            <div style="background:rgba(0,159,227,.15);border:1px solid rgba(0,159,227,.25);border-radius:100px;padding:4px 12px;margin-bottom:12px;width:fit-content;font-family:var(--font-mono);font-size:9px;color:rgba(0,159,227,.9)">● Microsoft Gold Partner · Top 1% US · Since 2006</div>
+            <div class="mock-h1">Your Enterprise<br><span style="color:var(--blue)">Microsoft 365</span> Partner.</div>
+            <div class="mock-sub">Migration, security, managed services and automation — fixed price, pay after delivery, by top 1% certified engineers.</div>
+            <div class="mock-cta-row">
+              <button class="mock-cta-primary">Schedule a Free Consultation</button>
+              <button class="mock-cta-outline">Browse Services →</button>
+            </div>
+            <div class="mock-trust" style="margin-top:12px">
+              <span class="mock-trust-badge">⭐ Top 1% Responsive</span>
+              <span class="mock-trust-badge">🔒 Fixed Price</span>
+              <span class="mock-trust-badge">✅ Pay After</span>
+              <span class="mock-trust-badge">🌍 28 Countries</span>
+            </div>
+          </div>
+          <div class="mock-hero-right">
+            <div class="mock-metric-row">
+              <div class="mock-metric"><div class="mock-metric-val">5,620</div><div class="mock-metric-label">Clients</div></div>
+              <div class="mock-metric"><div class="mock-metric-val">18+</div><div class="mock-metric-label">Gold Yrs</div></div>
+              <div class="mock-metric"><div class="mock-metric-val">&lt;2h</div><div class="mock-metric-label">Response</div></div>
+            </div>
+            <div style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px">
+              <div style="font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,.5);margin-bottom:6px">ENVIRONMENT HEALTH</div>
+              <div style="display:flex;flex-direction:column;gap:4px">
+                <div style="display:flex;align-items:center;gap:6px"><span style="font-size:10px;color:rgba(255,255,255,.6);width:80px">Security</span><div style="flex:1;height:4px;background:rgba(255,255,255,.15);border-radius:2px"><div style="width:87%;height:100%;background:var(--blue);border-radius:2px"></div></div><span style="font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,.6)">87%</span></div>
+                <div style="display:flex;align-items:center;gap:6px"><span style="font-size:10px;color:rgba(255,255,255,.6);width:80px">Licenses</span><div style="flex:1;height:4px;background:rgba(255,255,255,.15);border-radius:2px"><div style="width:94%;height:100%;background:var(--green);border-radius:2px"></div></div><span style="font-family:var(--font-mono);font-size:9px;color:rgba(255,255,255,.6)">94%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ann-note"><span class="ann-icon">🧠</span><span><strong>Aesthetic-Usability Effect:</strong> The hero's metric card cluster (right column) functions as a live dashboard preview — showing the product's value rather than just describing it. Prospective clients see exactly what they'll manage post-engagement, making the abstract concrete.</span></div>
+        <div class="ann-note"><span class="ann-icon">🎯</span><span><strong>Primary CTA</strong> is "Schedule a Free Consultation" (lowest commitment phrasing). The word "Free" reduces perceived risk. Secondary CTA "Browse Services →" captures users who need more information before committing.</span></div>
+        <div class="ann-note"><span class="ann-icon">🔒</span><span><strong>Trust signal row</strong> (⭐ Top 1% / 🔒 Fixed Price / ✅ Pay After / 🌍 28 Countries) sits directly below both CTAs — addressing the 4 most common objections at the exact decision moment.</span></div>
+      </div>
+
+      <!-- STATS ANNOTATION -->
+      <div class="ann-zone">
+        <div class="ann-label">ANN-03 · Stats Strip</div>
+        <div class="mock-stats">
+          <div class="mock-stat"><div class="mock-stat-num">25<b>+</b></div><div class="mock-stat-lbl">Years Business</div></div>
+          <div class="mock-stat"><div class="mock-stat-num">18<b>+</b></div><div class="mock-stat-lbl">Gold Partner</div></div>
+          <div class="mock-stat"><div class="mock-stat-num">5</div><div class="mock-stat-lbl">Offices</div></div>
+          <div class="mock-stat"><div class="mock-stat-num">28</div><div class="mock-stat-lbl">Countries</div></div>
+          <div class="mock-stat"><div class="mock-stat-num">5,620</div><div class="mock-stat-lbl">Clients Served</div></div>
+          <div class="mock-stat"><div class="mock-stat-num">1,160</div><div class="mock-stat-lbl">Under Mgmt</div></div>
+        </div>
+        <div class="ann-note"><span class="ann-icon">🧠</span><span><strong>Serial Position Effect + Social Proof:</strong> 6 stats shown in a full-width strip immediately after the hero. Users remember first and last items most — "25+ Years" (authority) and "1,160 Under Management" (social proof) anchor the strip. The blue highlights on numbers draw the eye.</span></div>
+        <div class="ann-note"><span class="ann-icon">📐</span><span>Bottom border on hover + animated blue underline on each stat cell provides micro-interaction feedback without distracting from content.</span></div>
+      </div>
+
+      <!-- SERVICES GRID ANNOTATION -->
+      <div class="ann-zone">
+        <div class="ann-label">ANN-04 · Services Grid</div>
+        <div class="mock-svc-grid">
+          <div class="mock-svc-card"><div class="mock-svc-icon">🔍</div><div class="mock-svc-title">Assessment &amp; Consulting</div><div class="mock-svc-desc">Infrastructure audits with strategic recommendations to maximise your Microsoft investment ROI.</div></div>
+          <div class="mock-svc-card"><div class="mock-svc-icon">☁️</div><div class="mock-svc-title">Cloud Migration</div><div class="mock-svc-desc">Seamless transition from on-premises, Google Workspace, or tenant-to-tenant.</div></div>
+          <div class="mock-svc-card"><div class="mock-svc-icon">🛡️</div><div class="mock-svc-title">Security &amp; Compliance</div><div class="mock-svc-desc">DLP, Defender, Zero Trust — complete planning, implementation, and management.</div></div>
+        </div>
+        <div class="ann-note"><span class="ann-icon">🧠</span><span><strong>Hick's Law:</strong> Only 6 service cards shown (not all 80+). Showing too many choices causes decision paralysis. Each card has a single "Learn more →" link — one action per card, no competing paths.</span></div>
+        <div class="ann-note"><span class="ann-icon">📐</span><span>Top-border on hover (3px blue line appearing from left) creates a directional microinteraction that signals interactivity without requiring hover text. Card count badge (e.g. "14 services") sets expectation and builds catalog confidence.</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PAGE 2: SERVICES -->
+  <div class="page-section">
+    <div class="ps-header">
+      <div>
+        <div class="ps-page-badge"><span class="ps-page-dot"></span>Page 02 — Services Catalog</div>
+        <div class="ps-title">Funnel Stage: Consideration · Self-qualifying browsing</div>
+      </div>
+      <a class="ps-link" href="c3-page2-services.html" target="_blank">Open Full Page →</a>
+    </div>
+    <div class="ps-body">
+      <div class="ann-zone">
+        <div class="ann-label">ANN-05 · Sidebar + Filter System</div>
+        <div class="mock-catalog">
+          <div class="mock-sb">
+            <div class="mock-sb-link active">All Services <span class="mock-sb-count">83</span></div>
+            <div class="mock-sb-link">Business Applications <span class="mock-sb-count">18</span></div>
+            <div class="mock-sb-link">Modern Work <span class="mock-sb-count">24</span></div>
+            <div class="mock-sb-link">Security &amp; DLP <span class="mock-sb-count">14</span></div>
+            <div class="mock-sb-link">Support Services <span class="mock-sb-count">11</span></div>
+            <div class="mock-sb-link">Data &amp; AI <span class="mock-sb-count">9</span></div>
+          </div>
+          <div class="mock-catalog-main">
+            <div class="mock-card-grid">
+              <div class="mock-svc-card2">
+                <div class="mock-svc-tags"><span class="mock-stag mock-stag-red">Security</span><span class="mock-stag mock-stag-red">DLP</span></div>
+                <div class="mock-card-title">Configure and Enable DLP Policies</div>
+                <div class="mock-card-price">$8,000</div>
+                <div class="mock-card-unit">Per project · 5 days</div>
+              </div>
+              <div class="mock-svc-card2">
+                <div class="mock-svc-tags"><span class="mock-stag mock-stag-blue">Automation</span></div>
+                <div class="mock-card-title">Business Process Automation</div>
+                <div class="mock-card-price">$1,500</div>
+                <div class="mock-card-unit">Per project · 10 days</div>
+              </div>
+              <div class="mock-svc-card2">
+                <div class="mock-svc-tags"><span class="mock-stag mock-stag-green">Managed</span></div>
+                <div class="mock-card-title">M365 Managed Support Service</div>
+                <div class="mock-card-price">$1,200</div>
+                <div class="mock-card-unit">Per month · Ongoing</div>
+              </div>
+              <div class="mock-svc-card2">
+                <div class="mock-svc-tags"><span class="mock-stag mock-stag-red">Security</span></div>
+                <div class="mock-card-title">Advanced Threat Protection</div>
+                <div class="mock-card-price">$900</div>
+                <div class="mock-card-unit">Per project · 5 days</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ann-note"><span class="ann-icon">🧠</span><span><strong>Recognition over Recall (Nielsen):</strong> Sidebar filters show counts next to each category so users instantly understand the depth of the catalog without having to explore. This prevents "empty state anxiety" — users know security has 14 options before clicking.</span></div>
+        <div class="ann-note"><span class="ann-icon">📐</span><span>SKU codes in monospace DM Mono on every card establish technical credibility — IT buyers recognise part number conventions from Microsoft's own product catalog. This signals this is a serious, systematic offering, not ad-hoc consulting.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: SERVICE DETAIL -->
+  <div class="page-section">
+    <div class="ps-header">
+      <div>
+        <div class="ps-page-badge"><span class="ps-page-dot"></span>Page 03 — Service Detail</div>
+        <div class="ps-title">Funnel Stage: Intent · Scope confirmation + purchase trigger</div>
+      </div>
+      <a class="ps-link" href="c3-page3-detail.html" target="_blank">Open Full Page →</a>
+    </div>
+    <div class="ps-body">
+      <div class="ann-zone">
+        <div class="ann-label">ANN-06 · Detail Layout + Sticky Price Card</div>
+        <div class="mock-detail">
+          <div class="mock-detail-content">
+            <div style="display:flex;gap:6px;margin-bottom:10px"><span class="mock-stag mock-stag-red">Security</span><span class="mock-stag mock-stag-blue">M365</span><span style="font-family:var(--font-mono);font-size:9px;color:var(--ink4);background:var(--bg-subtle);border:1px solid var(--border);padding:2px 7px;border-radius:4px">ITPWW010SECOT</span></div>
+            <div class="mock-detail-h1">Configure and Enable DLP Policies</div>
+            <div class="mock-quickfacts">
+              <div class="mock-qf"><div class="mock-qf-label">Duration</div><div class="mock-qf-val">5 Days</div></div>
+              <div class="mock-qf"><div class="mock-qf-label">Pricing</div><div class="mock-qf-val">Fixed Price</div></div>
+              <div class="mock-qf"><div class="mock-qf-label">Delivery</div><div class="mock-qf-val">Remote</div></div>
+            </div>
+            <div class="mock-timeline">
+              <div class="mock-tl-step"><div class="mock-tl-dot"></div><div class="mock-tl-day">Day 1</div><div class="mock-tl-title">Discovery &amp; Requirements</div><div class="mock-tl-desc">Kickoff call, data mapping, policy framework design.</div></div>
+              <div class="mock-tl-step"><div class="mock-tl-dot"></div><div class="mock-tl-day">Days 3–4</div><div class="mock-tl-title">Configuration &amp; Testing</div><div class="mock-tl-desc">Policies deployed in audit mode, tested, fine-tuned.</div></div>
+              <div class="mock-tl-step"><div class="mock-tl-dot"></div><div class="mock-tl-day">Day 5</div><div class="mock-tl-title">Go-Live &amp; Handover</div><div class="mock-tl-desc">Policies enforced. Training delivered. 30-day hypercare begins.</div></div>
+            </div>
+          </div>
+          <div class="mock-price-card">
+            <div class="mock-pc-top">
+              <div class="mock-pc-label">Service Price</div>
+              <div class="mock-pc-price">$8,000</div>
+              <div class="mock-pc-unit">Per project · Fixed price</div>
+              <div class="mock-pay-badge">✓ Pay After Completion</div>
+            </div>
+            <div class="mock-pc-features">
+              <div class="mock-pcf"><span class="mock-pcf-check">✓</span>5-day delivery</div>
+              <div class="mock-pcf"><span class="mock-pcf-check">✓</span>Admin training included</div>
+              <div class="mock-pcf"><span class="mock-pcf-check">✓</span>30-day hypercare</div>
+              <div class="mock-pcf"><span class="mock-pcf-check">✓</span>Full documentation</div>
+              <div class="mock-pcf"><span class="mock-pcf-check">✓</span>100% satisfaction guarantee</div>
+            </div>
+            <div class="mock-pc-actions">
+              <button class="mock-btn-cart">Add to Cart</button>
+              <button class="mock-btn-quote">Request Custom Quote</button>
+              <div class="mock-pc-fine">🔒 No payment until delivery accepted</div>
+            </div>
+          </div>
+        </div>
+        <div class="ann-note"><span class="ann-icon">🎯</span><span><strong>Sticky price card:</strong> The price card stays in view as users scroll through deliverables and process steps. The longer they read, the more intent builds — and the CTA is always visible. No scrolling back required to convert.</span></div>
+        <div class="ann-note"><span class="ann-icon">🔒</span><span><strong>Pay After badge + "No payment until delivery accepted" fine print</strong> are the two highest-impact trust signals on this page. They address the #1 B2B IT service objection: "What if they take my money and underdeliver?" Both appear in the price card, adjacent to the conversion button.</span></div>
+        <div class="ann-note"><span class="ann-icon">🧠</span><span><strong>Timeline process design:</strong> The vertical timeline with numbered steps makes the engagement feel transparent and structured. It answers "what happens after I pay?" — removing the biggest source of pre-purchase anxiety in professional services.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 4: CONTACT -->
+  <div class="page-section">
+    <div class="ps-header">
+      <div>
+        <div class="ps-page-badge"><span class="ps-page-dot"></span>Page 04 — Contact</div>
+        <div class="ps-title">Funnel Stage: Conversion · Final friction removal</div>
+      </div>
+      <a class="ps-link" href="c3-page4-contact.html" target="_blank">Open Full Page →</a>
+    </div>
+    <div class="ps-body">
+      <div class="ann-zone">
+        <div class="ann-label">ANN-07 · Contact Form System</div>
+        <div class="mock-contact">
+          <div class="mock-form-side">
+            <div class="mock-form-title">Send a Message</div>
+            <div class="mock-intent">
+              <button class="mock-int-tab active">Request a Quote</button>
+              <button class="mock-int-tab">Schedule Meeting</button>
+              <button class="mock-int-tab">Ask Question</button>
+              <button class="mock-int-tab">Get Support</button>
+            </div>
+            <div class="mock-fgrid">
+              <div><div class="mock-field-label">First Name *</div><input class="mock-inp" placeholder="John"></div>
+              <div><div class="mock-field-label">Work Email *</div><input class="mock-inp focus-blue" value="john@company.com"></div>
+              <div><div class="mock-field-label">Company *</div><input class="mock-inp" placeholder="Acme Corp"></div>
+              <div><div class="mock-field-label">Service</div><input class="mock-inp" placeholder="Select…"></div>
+            </div>
+            <button class="mock-submit">Send Message →</button>
+          </div>
+          <div class="mock-info-side">
+            <div class="mock-office-card primary-oc">
+              <div class="mock-oc-head">
+                <div class="mock-oc-name">🇺🇸 USA HQ <span class="mock-hq-chip">HQ</span></div>
+              </div>
+              <div class="mock-oc-detail">📞 +1-855-700-0365</div>
+              <div class="mock-oc-detail">✉️ sales@o365hq.com</div>
+            </div>
+            <div class="mock-office-card">
+              <div class="mock-oc-head"><div class="mock-oc-name">🇦🇺 Australia</div></div>
+              <div class="mock-oc-detail">📞 +61 280 016 205</div>
+            </div>
+            <div class="mock-resp-card">
+              <div class="mock-resp-head"><span>Response Times</span><span class="mock-resp-live">● Live</span></div>
+              <div class="mock-resp-row"><span>Sales form/email</span><span class="mock-resp-val">≤ 2 hours</span></div>
+              <div class="mock-resp-row"><span>Phone</span><span class="mock-resp-val">Immediate</span></div>
+              <div class="mock-resp-row"><span>Teams chat</span><span class="mock-resp-val">≤ 30 min</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ann-note"><span class="ann-icon">🎯</span><span><strong>Intent switcher tabs:</strong> Segmented control at the top of the form lets users self-select their intent (Quote / Meeting / Question / Support). This has two effects: (1) the form feels personalised, reducing abandonment; (2) it tells the sales team exactly what to prepare before they respond.</span></div>
+        <div class="ann-note"><span class="ann-icon">🔒</span><span><strong>Response time card with "● Live" indicator:</strong> Showing exact response SLAs (≤2h, Immediate, ≤30min) directly on the contact page removes the "I'll fill this in and never hear back" anxiety. The green live dot signals the team is actively monitoring — this is the page's most important trust signal.</span></div>
+        <div class="ann-note"><span class="ann-icon">🧠</span><span><strong>Jared Spool's "$300M Button" principle:</strong> The submit button reads "Send Message →" not "Submit". The arrow signals forward motion. The personalised label reduces the psychological cost of clicking — the user is "sending a message", not "submitting a form to a faceless company."</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="page-section">
+    <div class="ps-header">
+      <div>
+        <div class="ps-page-badge"><span class="ps-page-dot"></span>Page 05 — Workspace Dashboard</div>
+        <div class="ps-title">Post-Login Experience · Retention &amp; account expansion</div>
+      </div>
+      <a class="ps-link" href="itp-dashboard.html" target="_blank">Open Full Page →</a>
+    </div>
+    <div class="ps-body">
+      <div class="ann-zone">
+        <div class="ann-label">ANN-08 · Dashboard Architecture</div>
+        <div class="mock-dashboard">
+          <div class="mock-dsb-sidebar">
+            <div class="mock-dsb-brand">
+              <div class="mock-dsb-mark">IT</div>
+              <div class="mock-dsb-name">IT <b>Partner</b></div>
+            </div>
+            <div class="mock-dsb-item active">📊 Dashboard</div>
+            <div class="mock-dsb-item">🖥️ Workspaces</div>
+            <div class="mock-dsb-item">📦 Services</div>
+            <div class="mock-dsb-item">🔒 Security</div>
+            <div class="mock-dsb-item">📋 Licenses</div>
+            <div class="mock-dsb-item">👥 Users</div>
+            <div class="mock-dsb-item">✉️ Exchange</div>
+            <div class="mock-dsb-item">🎧 Helpdesk</div>
+          </div>
+          <div class="mock-dsb-main">
+            <div class="mock-dsb-topbar">
+              <div class="mock-dsb-title">Workspace Dashboard · Last updated 2 min ago</div>
+              <div class="mock-dsb-period">
+                <button class="mock-dsb-ptab">Daily</button>
+                <button class="mock-dsb-ptab">Weekly</button>
+                <button class="mock-dsb-ptab active">Monthly</button>
+                <button class="mock-dsb-ptab">Yearly</button>
+              </div>
+            </div>
+            <div class="mock-kpi-row">
+              <div class="mock-kpi"><div class="mock-kpi-icon" style="background:#E6F5FC">💼</div><div><div class="mock-kpi-lbl">Licenses</div><div class="mock-kpi-val">1,248</div></div></div>
+              <div class="mock-kpi"><div class="mock-kpi-icon" style="background:#FEE2E2">🛡️</div><div><div class="mock-kpi-lbl">Security</div><div class="mock-kpi-val">87%</div></div></div>
+              <div class="mock-kpi"><div class="mock-kpi-icon" style="background:#D1FAE5">👥</div><div><div class="mock-kpi-lbl">Users</div><div class="mock-kpi-val">3,841</div></div></div>
+              <div class="mock-kpi"><div class="mock-kpi-icon" style="background:#FEF3C7">🎫</div><div><div class="mock-kpi-lbl">Tickets</div><div class="mock-kpi-val">24</div></div></div>
+              <div class="mock-kpi"><div class="mock-kpi-icon" style="background:#F3E8FF">☁️</div><div><div class="mock-kpi-lbl">Storage</div><div class="mock-kpi-val">2.4TB</div></div></div>
+            </div>
+            <div class="mock-charts">
+              <div class="mock-chart">
+                <div class="mock-bar" style="height:45%"></div><div class="mock-bar" style="height:60%"></div><div class="mock-bar" style="height:50%"></div><div class="mock-bar" style="height:75%"></div><div class="mock-bar" style="height:65%"></div><div class="mock-bar" style="height:85%"></div><div class="mock-bar" style="height:78%"></div><div class="mock-bar" style="height:90%"></div><div class="mock-bar" style="height:82%"></div><div class="mock-bar" style="height:95%"></div><div class="mock-bar" style="height:88%"></div><div class="mock-bar" style="height:100%"></div>
+              </div>
+              <div class="mock-donut-card">
+                <div class="mock-donut-ring"><div class="mock-donut-inner">1,248</div></div>
+                <div style="font-family:var(--font-mono);font-size:9px;color:var(--ink4)">License Allocation</div>
+              </div>
+            </div>
+            <div class="mock-stat-cards">
+              <div class="mock-stat-grad" style="background:linear-gradient(135deg,#FF6B8A,#FF3D71)"><div class="mock-sg-label">Migration</div><div class="mock-sg-val">$48,200</div></div>
+              <div class="mock-stat-grad" style="background:linear-gradient(135deg,#7B68EE,#5A4CF0)"><div class="mock-sg-label">Security</div><div class="mock-sg-val">$21,800</div></div>
+              <div class="mock-stat-grad" style="background:linear-gradient(135deg,#009FE3,#0060B0)"><div class="mock-sg-label">Managed MRR</div><div class="mock-sg-val">$14,400</div></div>
+              <div class="mock-stat-grad" style="background:linear-gradient(135deg,#FFB347,#FF8C00)"><div class="mock-sg-label">Automation</div><div class="mock-sg-val">$8,750</div></div>
+            </div>
+            <div class="mock-table">
+              <div class="mock-table-head">
+                <span class="mock-th">Invoice</span><span class="mock-th">Client</span><span class="mock-th">Service</span><span class="mock-th">Country</span><span class="mock-th">Amount</span><span class="mock-th">Status</span>
+              </div>
+              <div class="mock-table-row">
+                <span class="mock-td mono">#ITP-2401</span><span class="mock-td">Acme Corp</span><span class="mock-td">DLP Config</span><span class="mock-td">🇺🇸</span><span class="mock-td">$8,000</span><span class="mock-td"><span class="mock-status-chip" style="background:#FEE2E2;color:#DC2626">In Progress</span></span>
+              </div>
+              <div class="mock-table-row">
+                <span class="mock-td mono">#ITP-2402</span><span class="mock-td">TechNova</span><span class="mock-td">Migration</span><span class="mock-td">🇩🇪</span><span class="mock-td">$12,500</span><span class="mock-td"><span class="mock-status-chip" style="background:#DBEAFE;color:#1E40AF">Completed</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ann-note"><span class="ann-icon">📐</span><span><strong>Dashboard serves account expansion:</strong> Once a client is onboarded, the dashboard surface area deliberately shows "Security Score: 87%" and "Open Tickets: 24" — metrics that naturally prompt the client to ask "can IT Partner help improve these?" This is an upsell engine built into the UX, not a separate sales motion.</span></div>
+        <div class="ann-note"><span class="ann-icon">🎯</span><span><strong>Gradient stat cards</strong> show revenue per service category — giving IT Partner's account managers a real-time view of where to focus renewal conversations. The colour coding (pink = migration, purple = security, blue = managed) matches the service tag system on the public catalog pages for visual continuity.</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELIVERABLES SUMMARY -->
+  <div style="background:var(--ink);border-radius:var(--r-xl);padding:40px;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:48px 48px;pointer-events:none"></div>
+    <div style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;background:radial-gradient(ellipse,rgba(0,159,227,.14) 0%,transparent 65%)"></div>
+    <div style="position:relative;z-index:1">
+      <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,159,227,.8);margin-bottom:12px">Complete Deliverables</div>
+      <h2 style="font-size:32px;font-weight:800;color:#fff;letter-spacing:-.04em;margin-bottom:6px">All <span style="color:var(--blue)">7 files</span> delivered.</h2>
+      <p style="font-size:15px;color:rgba(255,255,255,.45);margin-bottom:28px">Concept 3 · Light Enterprise Precision · IT Partner</p>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px">
+        <a href="c3-page1-home.html" target="_blank" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:16px;text-decoration:none;display:block;transition:background .15s" onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='rgba(255,255,255,.06)'">
+          <div style="font-family:var(--font-mono);font-size:9px;color:rgba(0,159,227,.7);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Page 01</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">Home</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.35)">Awareness · Hero + Services + Stats</div>
+        </a>
+        <a href="c3-page2-services.html" target="_blank" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:16px;text-decoration:none;display:block">
+          <div style="font-family:var(--font-mono);font-size:9px;color:rgba(0,159,227,.7);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Page 02</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">Services Catalog</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.35)">Consideration · Sidebar + Cards + Filters</div>
+        </a>
+        <a href="c3-page3-detail.html" target="_blank" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:16px;text-decoration:none;display:block">
+          <div style="font-family:var(--font-mono);font-size:9px;color:rgba(0,159,227,.7);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Page 03</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">Service Detail</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.35)">Intent · Timeline + Sticky Price Card</div>
+        </a>
+        <a href="c3-page4-contact.html" target="_blank" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:16px;text-decoration:none;display:block">
+          <div style="font-family:var(--font-mono);font-size:9px;color:rgba(0,159,227,.7);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Page 04</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">Contact</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.35)">Conversion · Intent Tabs + Office Map</div>
+        </a>
+        <a href="itp-dashboard.html" target="_blank" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:16px;text-decoration:none;display:block">
+          <div style="font-family:var(--font-mono);font-size:9px;color:rgba(0,159,227,.7);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">Page 05</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">Workspace Dashboard</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.35)">Retention · KPIs + Charts + Orders Table</div>
+        </a>
+        <a href="c3-style-guide.html" target="_blank" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);padding:16px;text-decoration:none;display:block">
+          <div style="font-family:var(--font-mono);font-size:9px;color:rgba(0,159,227,.7);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">File 06</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">Style Guide</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.35)">Colors · Type · Spacing · Components</div>
+        </a>
+        <a href="#" style="background:rgba(0,159,227,.1);border:1px solid rgba(0,159,227,.25);border-radius:var(--r-lg);padding:16px;text-decoration:none;display:block">
+          <div style="font-family:var(--font-mono);font-size:9px;color:rgba(0,159,227,.7);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">File 07</div>
+          <div style="font-size:14px;font-weight:700;color:#fff;margin-bottom:2px">Annotated Prototype</div>
+          <div style="font-size:11.5px;color:rgba(255,255,255,.35)">This file · Conversion strategy</div>
+        </a>
+        <div style="background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.1);border-radius:var(--r-lg);padding:16px;display:flex;align-items:center;justify-content:center">
+          <div style="text-align:center;font-size:12px;color:rgba(255,255,255,.2);font-family:var(--font-mono)">Ready for<br>next round →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end proto-content -->
+
+<script>
+// Tab switching
+document.querySelectorAll('.page-tab').forEach((tab,i)=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.page-tab').forEach(t=>t.classList.remove('active'));
+    tab.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
